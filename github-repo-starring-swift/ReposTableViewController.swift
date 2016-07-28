@@ -14,18 +14,6 @@ class ReposTableViewController: UITableViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      
-      
-      ///////////
-      
-      
-      
-      
-      
-      
-      //////////////
-      
-      
       self.tableView.accessibilityLabel = "tableView"
       self.tableView.delegate = self
       
@@ -33,7 +21,6 @@ class ReposTableViewController: UITableViewController {
          dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
          }
-         
       }
    }
    

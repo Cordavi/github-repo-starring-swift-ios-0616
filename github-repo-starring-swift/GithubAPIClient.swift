@@ -46,11 +46,17 @@ class GithubAPIClient {
       
       let urlSession = NSURLSession.sharedSession()
       urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
-         <#code#>
-      }.resume()
-      
-      
-      completion(true)
+         let urlSession = NSURLSession.sharedSession()
+         urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
+            if let httpResponse = response as? NSHTTPURLResponse {
+               if httpResponse.statusCode == 404 {
+                  completion(false)
+               } else if httpResponse.statusCode == 204 {
+                  completion(true)
+               }
+            }
+         }
+         }.resume()
    }
 }
 

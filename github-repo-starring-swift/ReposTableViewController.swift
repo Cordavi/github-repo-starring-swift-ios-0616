@@ -17,7 +17,7 @@ class ReposTableViewController: UITableViewController {
       
       
       ///////////
-      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/\(fullName)" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
+      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/mojombo/yaws" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
       
       guard let repoStarredURL = NSURL(string: urlString) else {
          return
@@ -25,7 +25,14 @@ class ReposTableViewController: UITableViewController {
       
       let urlSession = NSURLSession.sharedSession()
       urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
-         <#code#>
+         if let httpResponse = response as? NSHTTPURLResponse {
+            if httpResponse.statusCode == 404 {
+               print("false")
+            } else if httpResponse.statusCode == 204 {
+               print("true")
+            }
+         }
+         
          }.resume()
 
       

@@ -55,6 +55,19 @@ class GithubAPIClient {
          }
          }.resume()
    }
+   
+   func starRepository(fullName: String, completion: () -> Void) {
+      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/\(fullName)" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
+      
+      guard let repoStarredURL = NSURL(string: urlString) else {
+         return
+      }
+      
+      let request = NSMutableURLRequest(URL: repoStarredURL)
+      request.HTTPMethod = "PUT"
+   
+      NSURLSession.sharedSession().dataTaskWithRequest(request).resume()
+   }
 }
 
 ///solution from repo
@@ -79,4 +92,5 @@ class GithubAPIClient {
 //    }
 //
 //}
+
 

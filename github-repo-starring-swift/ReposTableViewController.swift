@@ -17,24 +17,10 @@ class ReposTableViewController: UITableViewController {
       
       
       ///////////
-      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/mojombo/yaws" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
       
-      guard let repoStarredURL = NSURL(string: urlString) else {
-         return
-      }
       
-      let urlSession = NSURLSession.sharedSession()
-      urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
-         if let httpResponse = response as? NSHTTPURLResponse {
-            if httpResponse.statusCode == 404 {
-               print("false")
-            } else if httpResponse.statusCode == 204 {
-               print("true")
-            }
-         }
-         
-         }.resume()
-
+      
+      
       
       
       //////////////
@@ -68,17 +54,17 @@ class ReposTableViewController: UITableViewController {
 
 ///from solution repo
 //class ReposTableViewController: UITableViewController {
-//    
+//
 //    let store = ReposDataStore.sharedInstance
-//    
+//
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
-//        
+//
 //        self.tableView.accessibilityLabel = "tableView"
 //        self.tableView.accessibilityIdentifier = "tableView"
-//        
+//
 //        store.getRepositoriesWithCompletion {
-//            NSOperationQueue.mainQueue().addOperationWithBlock({ 
+//            NSOperationQueue.mainQueue().addOperationWithBlock({
 //                self.tableView.reloadData()
 //            })
 //        }
@@ -90,7 +76,7 @@ class ReposTableViewController: UITableViewController {
 //        return self.store.repositories.count
 //    }
 //
-//    
+//
 //    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCellWithIdentifier("repoCell", forIndexPath: indexPath)
 //

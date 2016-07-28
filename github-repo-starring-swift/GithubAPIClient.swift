@@ -91,7 +91,7 @@ class GithubAPIClient {
          }.resume()
    }
    
-   class func unstarRepository(fullName: String, completion: () -> Void) {
+   class func unStarRepository(fullName: String, completion: () -> Void) {
       let urlString = "\(APIKeys.gitHubAddress)" + "\(APIKeys.gitHubStarred)" + "\(fullName)"
       
       guard let repoStarredURL = NSURL(string: urlString) else {

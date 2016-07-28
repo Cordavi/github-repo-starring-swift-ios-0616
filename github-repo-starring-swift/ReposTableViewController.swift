@@ -14,6 +14,25 @@ class ReposTableViewController: UITableViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
+      
+      
+      ///////////
+      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/\(fullName)" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
+      
+      guard let repoStarredURL = NSURL(string: urlString) else {
+         return
+      }
+      
+      let urlSession = NSURLSession.sharedSession()
+      urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
+         <#code#>
+         }.resume()
+
+      
+      
+      //////////////
+      
+      
       self.tableView.accessibilityLabel = "tableView"
       self.tableView.delegate = self
       
@@ -21,6 +40,7 @@ class ReposTableViewController: UITableViewController {
          dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
          }
+         
       }
    }
    

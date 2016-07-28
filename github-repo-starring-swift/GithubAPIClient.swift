@@ -37,27 +37,36 @@ class GithubAPIClient {
          }.resume()
    }
    
-   func checkIfRepositoryIsStarred(fullName: String, completion: Bool -> Void) {
-      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/\(fullName)" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
+   class func checkIfRepositoryIsStarred(fullName: String, completion: Bool -> Void) {
+      let urlString = "\(APIKeys.gitHubAddress)" + "\(APIKeys.gitHubStarred)" + "\(fullName)"
       
       guard let repoStarredURL = NSURL(string: urlString) else {
          return
       }
       
+      let request = NSMutableURLRequest(URL: repoStarredURL)
+      request.HTTPMethod = "GET"
+      request.addValue("\(APIKeys.headerAccessToken)", forHTTPHeaderField: "Authorization")
+      
       let urlSession = NSURLSession.sharedSession()
-      urlSession.dataTaskWithURL(repoStarredURL) { data, response, error in
-         if let httpResponse = response as? NSHTTPURLResponse {
-            if httpResponse.statusCode == 404 {
-               completion(false)
-            } else if httpResponse.statusCode == 204 {
-               completion(true)
-            }
+      urlSession.dataTaskWithRequest(request) { _, response, _ in
+         guard let httpResponse = response as? NSHTTPURLResponse else {
+            return
          }
+         
+         if httpResponse.statusCode == 404 {
+            completion(false)
+         } else if httpResponse.statusCode == 204 {
+            completion(true)
+         } else {
+            print("Other status code \(httpResponse.statusCode)")
+         }
+         
          }.resume()
    }
    
-   func starRepository(fullName: String, completion: () -> Void) {
-      let urlString = "\(APIKeys.gitHubAddress)" + "user/starred" + "/\(fullName)" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)" + "\(APIKeys.urlAccessToken)"
+   class func starRepository(fullName: String, completion: () -> Void) {
+      let urlString = "\(APIKeys.gitHubAddress)" + "\(APIKeys.gitHubStarred)" + "\(fullName)"
       
       guard let repoStarredURL = NSURL(string: urlString) else {
          return
@@ -65,8 +74,48 @@ class GithubAPIClient {
       
       let request = NSMutableURLRequest(URL: repoStarredURL)
       request.HTTPMethod = "PUT"
+      request.addValue("\(APIKeys.headerAccessToken)", forHTTPHeaderField: "Authorization")
+      
+      let urlSession = NSURLSession.sharedSession()
+      urlSession.dataTaskWithRequest(request) { _, response, _ in
+         guard let httpResponse = response as? NSHTTPURLResponse else {
+            return
+         }
+         
+         if httpResponse.statusCode == 204 {
+            completion()
+         } else {
+            print("Other status code \(httpResponse.statusCode)")
+         }
+         
+         }.resume()
+   }
    
-      NSURLSession.sharedSession().dataTaskWithRequest(request).resume()
+   class func unstarRepository(fullName: String, completion: () -> Void) {
+      let urlString = "\(APIKeys.gitHubAddress)" + "\(APIKeys.gitHubStarred)" + "\(fullName)"
+      
+      guard let repoStarredURL = NSURL(string: urlString) else {
+         return
+      }
+      
+      let request = NSMutableURLRequest(URL: repoStarredURL)
+      request.HTTPMethod = "DELETE"
+      request.addValue("\(APIKeys.headerAccessToken)", forHTTPHeaderField: "Authorization")
+      
+      let urlSession = NSURLSession.sharedSession()
+      urlSession.dataTaskWithRequest(request) { _, response, _ in
+         guard let httpResponse = response as? NSHTTPURLResponse else {
+            return
+         }
+         
+         if httpResponse.statusCode == 204 {
+            completion()
+         } else {
+            print("Other status code \(httpResponse.statusCode)")
+         }
+         
+         }.resume()
+      
    }
 }
 

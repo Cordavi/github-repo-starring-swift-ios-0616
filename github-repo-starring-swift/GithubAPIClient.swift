@@ -13,7 +13,7 @@ import UIKit
 class GithubAPIClient {
    
    
-   class func getRepositoriesWithCompletion(completion: ([[String : AnyObject]] -> Void)) {
+   class func getRepositoriesWithCompletion(completion: [[String : AnyObject]] -> Void) {
       let urlString = "\(APIKeys.gitHubAddress)" + "repositories" + "\(APIKeys.clientID)" + "\(APIKeys.clientSecret)"
       
       guard let url = NSURL(string: urlString) else {
@@ -21,7 +21,7 @@ class GithubAPIClient {
       }
       
       let urlSession = NSURLSession.sharedSession()
-      urlSession.dataTaskWithURL(url) {data, response, error in
+      urlSession.dataTaskWithURL(url) { data, response, error in
          guard let data = data where error == nil else {
             return
          }
@@ -34,6 +34,7 @@ class GithubAPIClient {
          } catch {
             print(error)
          }
+         
          }.resume()
    }
    
